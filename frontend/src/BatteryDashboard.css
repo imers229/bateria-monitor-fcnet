@@ -1,0 +1,1019 @@
+/* ============================================================================
+   ESTILOS DEL DASHBOARD DE BATERÍA
+   ============================================================================
+   Este archivo contiene todos los estilos CSS del dashboard:
+   - Variables CSS personalizadas (gradientes, sombras)
+   - Diseño responsive con media queries
+   - Animaciones de batería con efecto líquido
+   - Tarjetas de métricas con glassmorphism
+   - Indicadores de estado con colores dinámicos
+   ============================================================================ */
+
+/* ===== RESET GLOBAL ===== */
+/* Eliminar márgenes y paddings por defecto del navegador */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* width/height incluyen padding y border */
+}
+
+/* ===== VARIABLES CSS PERSONALIZADAS - BRANDING FCNET ===== */
+/* Paleta de colores corporativos de FCNET */
+:root {
+  /* Colores FCNET */
+  --fcnet-red: #E30613;           /* Rojo FCNET principal */
+  --fcnet-red-dark: #B8050F;      /* Rojo oscuro */
+  --fcnet-red-light: #FF1A27;     /* Rojo claro */
+  --fcnet-black: #1A1A1A;         /* Negro FCNET */
+  --fcnet-gold: #FFD700;          /* Dorado/Amarillo FCNET */
+  --fcnet-orange: #FF6B35;        /* Naranja energético */
+  
+  /* Gradientes principales FCNET */
+  --primary-gradient: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 50%, #1A1A1A 100%);
+  --secondary-gradient: linear-gradient(135deg, #E30613 0%, #FF1A27 100%);
+  --accent-gradient: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  
+  /* Gradientes de estado de batería con colores FCNET */
+  --success-gradient: linear-gradient(to top, #00D084 0%, #00E5A0 100%);   /* Verde tecnológico */
+  --warning-gradient: linear-gradient(to top, #FFD700 0%, #FFA500 100%);   /* Dorado FCNET */
+  --danger-gradient: linear-gradient(to top, #E30613 0%, #FF1A27 100%);    /* Rojo FCNET */
+  
+  /* Efectos visuales */
+  --card-shadow: 0 15px 40px rgba(227, 6, 19, 0.15);
+  --card-shadow-hover: 0 20px 50px rgba(227, 6, 19, 0.25);
+  --text-light: rgba(255, 255, 255, 0.95);
+  --glass-bg: rgba(26, 26, 26, 0.8);
+  --glass-border: rgba(227, 6, 19, 0.3);
+}
+
+/* ===== ESTILOS DEL BODY - TEMA FCNET ===== */
+body {
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  background: var(--primary-gradient);
+  min-height: 100vh;
+  padding: 20px;
+  color: #fff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Efecto de partículas/fibra óptica en el fondo */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(227, 6, 19, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(227, 6, 19, 0.05) 0%, transparent 50%);
+  animation: bgPulse 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes bgPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== ENCABEZADO - BRANDING FCNET ===== */
+header {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+  animation: fadeInDown 0.8s ease;
+  position: relative;
+}
+
+header h1 {
+  font-size: 3.5em;
+  margin-bottom: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #E30613;
+  text-shadow: 
+    2px 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 5px rgba(227, 6, 19, 0.2);
+}
+
+@keyframes textGlow {
+  0%, 100% {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+  }
+}
+
+.subtitle {
+  font-size: 1.3em;
+  opacity: 0.95;
+  margin-bottom: 20px;
+  color: var(--fcnet-gold);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+/* ===== INDICADOR DE CONEXIÓN - ESTILO FCNET ===== */
+.connection-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--glass-bg);
+  padding: 12px 24px;
+  border-radius: 30px;
+  backdrop-filter: blur(15px);
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 8px 20px rgba(227, 6, 19, 0.3),
+              inset 0 1px 1px rgba(255, 215, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.connection-indicator:hover {
+  border-color: var(--fcnet-red);
+  box-shadow: 0 8px 25px rgba(227, 6, 19, 0.5);
+}
+
+.status-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--fcnet-red);
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px var(--fcnet-red);
+  animation: pulseRed 2s infinite;
+}
+
+@keyframes pulseRed {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--fcnet-red), 0 0 20px var(--fcnet-red);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--fcnet-red), 0 0 30px var(--fcnet-red);
+    transform: scale(1.1);
+  }
+}
+
+.status-dot.connected {
+  background-color: #00E5A0;
+  box-shadow: 0 0 15px #00E5A0;
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0%, 100% {
+    box-shadow: 0 0 10px #00E5A0, 0 0 20px #00E5A0;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 20px #00E5A0, 0 0 30px #00E5A0;
+    transform: scale(1.1);
+  }
+}
+
+.connection-indicator span {
+  font-weight: 600;
+  font-size: 1.1em;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== DASHBOARD PRINCIPAL - TEMA OSCURO FCNET ===== */
+.dashboard {
+  background: linear-gradient(145deg, rgba(26, 26, 26, 0.95), rgba(45, 45, 45, 0.9));
+  border-radius: 30px;
+  padding: 50px;
+  box-shadow: 
+    0 25px 80px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(227, 6, 19, 0.2),
+    inset 0 1px 1px rgba(255, 215, 0, 0.05);
+  animation: fadeInUp 0.8s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(227, 6, 19, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de brillo sutil en el borde */
+.dashboard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(227, 6, 19, 0.1), 
+    transparent
+  );
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* ===== SECCIÓN DE BATERÍA ANIMADA - ESTILO FCNET ===== */
+.battery-section {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 50px;
+  margin-bottom: 50px;
+  align-items: center;
+}
+
+.battery-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  filter: drop-shadow(0 0 30px rgba(227, 6, 19, 0.3));
+}
+
+/* Cuerpo de la batería con efecto de vidrio oscuro */
+.battery-shell {
+  width: 280px;
+  height: 480px;
+  border: 8px solid #000;
+  border-radius: 25px;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, 
+    rgba(30, 30, 30, 0.9) 0%, 
+    rgba(20, 20, 20, 0.95) 50%,
+    rgba(15, 15, 15, 1) 100%
+  );
+  box-shadow: 
+    inset 0 0 50px rgba(0, 0, 0, 0.8),
+    inset 0 2px 2px rgba(255, 255, 255, 0.1),
+    0 10px 50px rgba(227, 6, 19, 0.4),
+    0 0 100px rgba(255, 215, 0, 0.2);
+}
+
+/* Nivel de batería con líquido animado estilo FCNET */
+.battery-level {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: var(--success-gradient);
+  transition: height 1.2s cubic-bezier(0.4, 0, 0.2, 1), background 0.6s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 
+    0 -2px 20px rgba(0, 229, 160, 0.5),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.battery-level.medium {
+  background: var(--warning-gradient);
+  box-shadow: 
+    0 -2px 20px rgba(255, 215, 0, 0.6),
+    inset 0 0 30px rgba(255, 255, 255, 0.15);
+}
+
+.battery-level.low {
+  background: var(--danger-gradient);
+  box-shadow: 
+    0 -2px 20px rgba(227, 6, 19, 0.8),
+    inset 0 0 30px rgba(255, 255, 255, 0.1);
+  animation: lowBatteryPulse 1.5s infinite;
+}
+
+@keyframes lowBatteryPulse {
+  0%, 100% {
+    box-shadow: 
+      0 -2px 20px rgba(227, 6, 19, 0.8),
+      inset 0 0 30px rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 -2px 40px rgba(227, 6, 19, 1),
+      inset 0 0 50px rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* Efecto de líquido burbujeante con múltiples capas */
+.battery-liquid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Burbujas animadas */
+.battery-liquid::before,
+.battery-liquid::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6), transparent 70%);
+  animation: bubble 4s ease-in-out infinite;
+}
+
+.battery-liquid::before {
+  width: 40px;
+  height: 40px;
+  bottom: -20px;
+  left: 30%;
+  animation-delay: 0s;
+}
+
+.battery-liquid::after {
+  width: 30px;
+  height: 30px;
+  bottom: -15px;
+  left: 70%;
+  animation-delay: 2s;
+}
+
+@keyframes bubble {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(-480px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Efecto de olas en la superficie */
+.battery-level::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -50%;
+  width: 200%;
+  height: 40px;
+  background: radial-gradient(ellipse at center, 
+    rgba(255, 255, 255, 0.4) 0%, 
+    transparent 60%
+  );
+  border-radius: 50%;
+  animation: wave 3s ease-in-out infinite;
+}
+
+.battery-level::after {
+  content: '';
+  position: absolute;
+  top: -15px;
+  left: -50%;
+  width: 200%;
+  height: 30px;
+  background: radial-gradient(ellipse at center, 
+    rgba(255, 255, 255, 0.2) 0%, 
+    transparent 60%
+  );
+  border-radius: 50%;
+  animation: wave 3s ease-in-out infinite reverse;
+  animation-delay: 0.5s;
+}
+
+@keyframes wave {
+  0%, 100% {
+    transform: translateX(-25%) translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateX(25%) translateY(-3px) rotate(2deg);
+  }
+}
+
+/* Texto del porcentaje con efecto neón */
+.soc-text {
+  font-size: 3.8em;
+  font-weight: 900;
+  color: white;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px currentColor,
+    0 0 30px currentColor,
+    3px 3px 10px rgba(0, 0, 0, 0.8);
+  z-index: 10;
+  position: relative;
+  animation: textPulse 3s ease-in-out infinite;
+  letter-spacing: 2px;
+}
+
+@keyframes textPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.2);
+  }
+}
+
+/* Terminal positivo de la batería - estilo FCNET */
+.battery-cap {
+  width: 140px;
+  height: 45px;
+  background: linear-gradient(180deg, #E30613 0%, #B8050F 100%);
+  border-radius: 15px 15px 0 0;
+  position: absolute;
+  top: -45px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 
+    0 -5px 20px rgba(227, 6, 19, 0.6),
+    inset 0 2px 5px rgba(255, 255, 255, 0.2),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.5);
+  border: 2px solid #FFD700;
+}
+
+.battery-cap::after {
+  content: '+';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: 900;
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+}
+
+.battery-info {
+  flex: 1;
+}
+
+.battery-info h2 {
+  font-size: 2.5em;
+  color: var(--fcnet-gold);
+  margin-bottom: 25px;
+  font-weight: 700;
+  text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 50px;
+  background: rgba(30, 30, 30, 0.8);
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 
+    inset 0 4px 15px rgba(0, 0, 0, 0.5),
+    0 2px 10px rgba(227, 6, 19, 0.2);
+  border: 2px solid rgba(227, 6, 19, 0.3);
+  position: relative;
+}
+
+.progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.5), transparent);
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--success-gradient);
+  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  box-shadow: 
+    0 0 20px rgba(0, 229, 160, 0.6),
+    inset 0 2px 5px rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+}
+
+.progress-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: 25px 25px 0 0;
+}
+
+.progress-fill.medium {
+  background: var(--warning-gradient);
+  box-shadow: 
+    0 0 20px rgba(255, 215, 0, 0.7),
+    inset 0 2px 5px rgba(255, 255, 255, 0.3);
+}
+
+.progress-fill.low {
+  background: var(--danger-gradient);
+  box-shadow: 
+    0 0 20px rgba(227, 6, 19, 0.8),
+    inset 0 2px 5px rgba(255, 255, 255, 0.3);
+  animation: progressPulse 1.5s infinite;
+}
+
+@keyframes progressPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(227, 6, 19, 0.8),
+      inset 0 2px 5px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(227, 6, 19, 1),
+      inset 0 2px 5px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.status-text {
+  margin-top: 20px;
+  font-size: 1.4em;
+  font-weight: 600;
+  color: var(--fcnet-gold);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+/* ===== MÉTRICAS PRINCIPALES - ESTILO FCNET ===== */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.metric-card {
+  background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.95));
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(227, 6, 19, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(227, 6, 19, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    var(--fcnet-red) 0%, 
+    var(--fcnet-gold) 50%, 
+    var(--fcnet-red) 100%
+  );
+}
+
+.metric-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 15px 40px rgba(227, 6, 19, 0.4),
+    0 0 0 1px rgba(227, 6, 19, 0.4);
+  border-color: var(--fcnet-red);
+}
+
+.metric-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.metric-icon {
+  font-size: 2.5em;
+  filter: drop-shadow(0 0 10px currentColor);
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.metric-label {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.metric-value {
+  font-size: 2.8em;
+  font-weight: 900;
+  color: var(--fcnet-gold);
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  letter-spacing: -1px;
+}
+
+.metric-range,
+.metric-sublabel {
+  font-size: 0.95em;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+
+.metric-state {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1em;
+  font-weight: 700;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.voltage-card .metric-icon {
+  color: #FFD700;
+}
+
+.current-card .metric-icon {
+  color: #FF6B35;
+}
+
+.time-card .metric-icon {
+  color: #00E5A0;
+}
+
+.autonomy-card .metric-icon {
+  color: #E30613;
+}
+
+/* ===== PANEL DE INFORMACIÓN - ESTILO FCNET ===== */
+.info-panel {
+  margin-top: 40px;
+  padding: 40px;
+  background: linear-gradient(145deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.95));
+  border-radius: 25px;
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(227, 6, 19, 0.2);
+  border: 1px solid rgba(227, 6, 19, 0.2);
+  position: relative;
+}
+
+.info-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    var(--fcnet-red) 0%, 
+    var(--fcnet-gold) 50%, 
+    var(--fcnet-red) 100%
+  );
+  border-radius: 25px 25px 0 0;
+}
+
+.info-panel h3 {
+  margin-bottom: 30px;
+  color: var(--fcnet-gold);
+  text-align: center;
+  font-size: 2em;
+  font-weight: 700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.spec {
+  padding: 25px;
+  background: rgba(40, 40, 40, 0.6);
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 215, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(227, 6, 19, 0.2);
+}
+
+.spec:hover {
+  transform: translateY(-5px);
+  border-color: var(--fcnet-red);
+  box-shadow: 
+    0 8px 25px rgba(227, 6, 19, 0.4),
+    inset 0 1px 1px rgba(255, 215, 0, 0.2);
+}
+
+.spec-label {
+  font-size: 0.95em;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.spec-value {
+  font-size: 1.8em;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--fcnet-gold) 0%, var(--fcnet-red) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== ALERTA - ESTILO FCNET ===== */
+.alert-box {
+  margin-top: 30px;
+  padding: 30px;
+  background: linear-gradient(135deg, 
+    rgba(227, 6, 19, 0.9) 0%, 
+    rgba(184, 5, 15, 0.95) 100%
+  );
+  color: white;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 
+    0 10px 40px rgba(227, 6, 19, 0.5),
+    0 0 0 2px var(--fcnet-gold);
+  animation: alertPulse 2s infinite;
+  border: 2px solid var(--fcnet-gold);
+}
+
+@keyframes alertPulse {
+  0%, 100% {
+    box-shadow: 
+      0 10px 40px rgba(227, 6, 19, 0.5),
+      0 0 0 2px var(--fcnet-gold),
+      0 0 20px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 
+      0 15px 50px rgba(227, 6, 19, 0.7),
+      0 0 0 2px var(--fcnet-gold),
+      0 0 40px rgba(255, 215, 0, 0.8);
+  }
+}
+
+.alert-icon {
+  font-size: 3.5em;
+  animation: alertShake 0.5s infinite;
+}
+
+@keyframes alertShake {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-15deg);
+  }
+  75% {
+    transform: rotate(15deg);
+  }
+}
+
+.alert-content strong {
+  display: block;
+  font-size: 1.5em;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.alert-content p {
+  font-size: 1.1em;
+  opacity: 0.95;
+}
+
+/* ===== FOOTER - ESTILO FCNET ===== */
+footer {
+  text-align: center;
+  color: white;
+  margin-top: 50px;
+  opacity: 0.95;
+  padding: 30px 0;
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    var(--fcnet-red) 20%, 
+    var(--fcnet-gold) 50%, 
+    var(--fcnet-red) 80%, 
+    transparent 100%
+  );
+}
+
+.footer-content p {
+  margin: 12px 0;
+  font-size: 1em;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+.footer-content strong {
+  color: var(--fcnet-gold);
+  font-weight: 700;
+}
+
+.credits {
+  font-size: 1.1em;
+  color: var(--fcnet-gold);
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.telegram-info {
+  color: #00E5A0;
+  font-weight: 600;
+}
+
+/* ===== ANIMACIONES GLOBALES ===== */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes lowBatteryPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes alertSlideIn {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes alertPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .battery-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 30px;
+  }
+  
+  .battery-info h2 {
+    font-size: 2em;
+  }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.5em;
+  }
+  
+  .subtitle {
+    font-size: 1.1em;
+  }
+  
+  .dashboard {
+    padding: 30px 20px;
+  }
+  
+  .battery-shell {
+    width: 220px;
+    height: 380px;
+  }
+  
+  .soc-text {
+    font-size: 2.5em;
+  }
+  
+  .battery-cap {
+    width: 110px;
+    height: 35px;
+    top: -35px;
+  }
+  
+  .metric-card {
+    padding: 25px;
+  }
+  
+  .metric-value {
+    font-size: 2.5em;
+  }
+  
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  header h1 {
+    font-size: 2em;
+  }
+  
+  .dashboard {
+    padding: 20px 15px;
+  }
+  
+  .battery-shell {
+    width: 180px;
+    height: 320px;
+  }
+  
+  .soc-text {
+    font-size: 2em;
+  }
+  
+  .info-panel {
+    padding: 20px;
+  }
+  
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+}

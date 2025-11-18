@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <!-- Codificación de caracteres UTF-8 para soporte de español y emojis -->
+    <meta charset="UTF-8" />
+    
+    <!-- Favicon: Emoji de batería 🔋 embebido como SVG en data URL -->
+    <!-- Esto evita necesidad de archivo externo y funciona en todos los navegadores -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔋</text></svg>" />
+    
+    <!-- Viewport para diseño responsive en móviles y tablets -->
+    <!-- width=device-width: ancho = ancho del dispositivo -->
+    <!-- initial-scale=1.0: zoom inicial 100% -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Título de la página (se muestra en la pestaña del navegador) -->
+    <title>Monitor de Batería 24V 100Ah</title>
+  </head>
+  <body>
+    <!-- Contenedor raíz donde React montará la aplicación -->
+    <!-- Este elemento es seleccionado en main.tsx con getElementById('root') -->
+    <div id="root"></div>
+    
+    <!-- Script principal: carga main.tsx como módulo ES6 -->
+    <!-- Vite procesa este archivo y todos sus imports durante el build -->
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
