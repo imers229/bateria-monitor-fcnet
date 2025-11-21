@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUrl: 'https://fcnet-battery-backend.fly.dev/api'
+  backendUrl: 'https://intelligent-recreation-production-47e0.up.railway.app/api'
 };
