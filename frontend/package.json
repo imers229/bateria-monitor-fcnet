@@ -1,23 +1,32 @@
 {
-  "name": "frontend",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "battery-monitor-fcnet",
+  "version": "1.0.0",
+  "description": "Monitor de Batería 24V 100Ah con Angular 19 y MQTT",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build --configuration production",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^19.0.5",
+    "@angular/common": "^19.0.5",
+    "@angular/compiler": "^19.0.5",
+    "@angular/core": "^19.0.5",
+    "@angular/forms": "^19.0.5",
+    "@angular/platform-browser": "^19.0.5",
+    "@angular/platform-browser-dynamic": "^19.0.5",
+    "mqtt": "^5.14.1",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.8.1",
+    "zone.js": "^0.15.0"
   },
   "devDependencies": {
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "typescript": "~5.9.3",
-    "vite": "^7.2.2"
-  },
-  "dependencies": {
-    "mqtt": "^5.14.1",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "@angular-devkit/build-angular": "^19.0.6",
+    "@angular/cli": "^19.0.6",
+    "@angular/compiler-cli": "^19.0.5",
+    "typescript": "~5.6.3"
   }
 }

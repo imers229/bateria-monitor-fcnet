@@ -1,24 +1,18 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+// ============================================================================
+// MAIN.TS - ANGULAR 19 BOOTSTRAP
+// ============================================================================
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+// ============================================================================
+// MAIN.TS - ANGULAR 19 BOOTSTRAP
+// ============================================================================
+// Punto de entrada de la aplicación Angular.
+// Bootstrapea (inicializa) el componente raíz de la aplicación.
+// ============================================================================
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+import { bootstrapApplication } from '@angular/platform-browser';
+import { AppComponente } from './app.componente';
+import { appConfiguracion } from './app.configuracion';
+
+// Inicializar la aplicación Angular con el componente raíz y su configuración
+bootstrapApplication(AppComponente, appConfiguracion)
+  .catch((err) => console.error('❌ Error al inicializar la aplicación:', err));

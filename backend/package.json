@@ -1,0 +1,30 @@
+{
+  "name": "fcnet-battery-backend",
+  "version": "1.0.0",
+  "description": "Backend MQTT y Telegram para Monitor de Batería FCNET",
+  "main": "src/servidor.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/servidor.js",
+    "dev": "nodemon src/servidor.js"
+  },
+  "keywords": [
+    "mqtt",
+    "telegram",
+    "battery",
+    "monitoring",
+    "esp32"
+  ],
+  "author": "FCNET",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mqtt": "^5.3.5",
+    "node-telegram-bot-api": "^0.64.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

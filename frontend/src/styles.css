@@ -1,0 +1,72 @@
+/* ============================================================================
+   ESTILOS GLOBALES - ANGULAR 19
+   ============================================================================ */
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== VARIABLES CSS PERSONALIZADAS - BRANDING FCNET ===== */
+:root {
+  /* Colores FCNET */
+  --fcnet-red: #E30613;
+  --fcnet-red-dark: #B8050F;
+  --fcnet-red-light: #FF1A27;
+  --fcnet-black: #1A1A1A;
+  --fcnet-gold: #FFD700;
+  --fcnet-orange: #FF6B35;
+  
+  /* Gradientes principales FCNET */
+  --primary-gradient: linear-gradient(135deg, #1A1A1A 0%, #2D2D2D 50%, #1A1A1A 100%);
+  --secondary-gradient: linear-gradient(135deg, #E30613 0%, #FF1A27 100%);
+  --accent-gradient: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  
+  /* Gradientes de estado de batería con colores FCNET */
+  --success-gradient: linear-gradient(to top, #00D084 0%, #00E5A0 100%);
+  --warning-gradient: linear-gradient(to top, #FFD700 0%, #FFA500 100%);
+  --danger-gradient: linear-gradient(to top, #E30613 0%, #FF1A27 100%);
+  
+  /* Efectos visuales */
+  --card-shadow: 0 15px 40px rgba(227, 6, 19, 0.15);
+  --card-shadow-hover: 0 20px 50px rgba(227, 6, 19, 0.25);
+  --text-light: rgba(255, 255, 255, 0.95);
+  --glass-bg: rgba(26, 26, 26, 0.8);
+  --glass-border: rgba(227, 6, 19, 0.3);
+}
+
+/* ===== ESTILOS DEL BODY - TEMA FCNET ===== */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  background: var(--primary-gradient);
+  min-height: 100vh;
+  padding: 20px;
+  color: #fff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Efecto de partículas/fibra óptica en el fondo */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(227, 6, 19, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(227, 6, 19, 0.05) 0%, transparent 50%);
+  animation: bgPulse 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes bgPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}

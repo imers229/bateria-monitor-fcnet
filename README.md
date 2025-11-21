@@ -1,32 +1,42 @@
 # 🔋 Monitor de Batería FCNET
 
-Dashboard en tiempo real para monitoreo de batería 24V 100Ah con ESP32 e INA219.
+Sistema completo de monitoreo de batería 24V 100Ah con ESP32, MQTT, Telegram y dashboard en tiempo real.
+
+## 🏗️ Arquitectura
+
+```
+ESP32 (simulación) → HiveMQ Cloud → Backend Node.js (Fly.io) → Dashboard Angular (Netlify)
+                                         ↓
+                                    Bot Telegram
+```
 
 ## 🚀 Características
 
 - ✅ Monitoreo en tiempo real vía MQTT (HiveMQ Cloud)
-- ✅ Dashboard con branding FCNET
+- ✅ Dashboard Angular 19 con branding FCNET
+- ✅ Backend Node.js con API REST
+- ✅ Bot de Telegram con alertas automáticas
+- ✅ Modo simulación ESP32 (sin hardware)
+- ✅ Deploy gratuito (Fly.io + Netlify)
 - ✅ Batería animada con efecto de líquido burbujeante
-- ✅ Alertas de batería baja
-- ✅ Bot de Telegram integrado
 - ✅ Diseño responsive (móvil, tablet, desktop)
 - ✅ Tema oscuro profesional
 
 ## 📊 Datos Monitoreados
 
-- **Voltaje**: Lectura directa con divisor de voltaje
-- **Corriente**: Sensor INA219 con shunt 50A/75mV
-- **Estado de Carga (SOC)**: Cálculo por voltaje
+- **Voltaje**: 20.8V - 26.5V (simulado)
+- **Corriente**: -3A (carga) a +3A (descarga)
+- **Estado de Carga (SOC)**: Cálculo por voltaje (0-100%)
 - **Tiempo de carga**: Estimación hasta 100%
 - **Autonomía**: Tiempo restante de uso
 
 ## 🛠️ Tecnologías
 
 ### Frontend
-- React 18.3.1
+- Angular 19.0.5
 - TypeScript 5.9.3
-- Vite 7.2.2
-- MQTT.js 5.3.0
+- MQTT.js 5.14.1
+- RxJS 7.8.1
 - CSS3 con animaciones avanzadas
 
 ### Backend (ESP32)
@@ -36,69 +46,49 @@ Dashboard en tiempo real para monitoreo de batería 24V 100Ah con ESP32 e INA219
 - Bot de Telegram
 
 ### Infraestructura
-- HiveMQ Cloud (MQTT Broker)
-- Netlify (Hosting)
+- HiveMQ Cloud (MQTT Broker privado)
 - GitHub (Control de versiones)
 
 ## 📱 Instalación Local
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/TU_USUARIO/DASHBOARDFONET.git
+git clone https://github.com/imers229/bateria-monitor-fcnet.git
 cd DASHBOARDFONET/frontend
 
 # Instalar dependencias
 npm install
 
-# Ejecutar en desarrollo
-npm run dev
+# Ejecutar en desarrollo (puerto 4200)
+npm start
 
 # Construir para producción
 npm run build
 ```
 
-## 🌐 Despliegue en Netlify
+## 🌐 Despliegue
 
-### Opción 1: Desde GitHub (Recomendado)
+El proyecto está listo para ser desplegado en cualquier servidor web. Los archivos compilados estarán en `frontend/dist/battery-monitor-fcnet/browser/`.
 
-1. Sube el proyecto a GitHub
-2. Ve a [Netlify](https://app.netlify.com)
-3. Click en "New site from Git"
-4. Selecciona tu repositorio
-5. Configuración automática (lee `netlify.toml`)
-6. ¡Listo! Se despliega automáticamente
-
-### Opción 2: Deploy Manual
-
-```bash
-# Instalar Netlify CLI
-npm install -g netlify-cli
-
-# Login
-netlify login
-
-# Deploy
-cd frontend
-npm run build
-netlify deploy --prod --dir=dist
-```
+Puedes usar cualquier hosting de tu elección (Apache, Nginx, Vercel, etc.).
 
 ## ⚙️ Configuración
 
-### MQTT (HiveMQ)
+### MQTT (HiveMQ Cloud)
 
-Edita `frontend/src/config.ts`:
+Edita `frontend/src/services/config.service.ts`:
 
 ```typescript
-export const CONFIG = {
-  MQTT: {
-    broker: 'wss://TU_CLUSTER.s1.eu.hivemq.cloud:8884/mqtt',
-    username: 'TU_USUARIO',
-    password: 'TU_PASSWORD',
-    topic: 'battery/data',
-  }
+readonly MQTT: MqttConfig = {
+  broker: 'wss://TU_CLUSTER.s1.eu.hivemq.cloud:8884/mqtt',
+  username: 'TU_USUARIO',
+  password: 'TU_PASSWORD',
+  topic: 'fcnet/battery/data',
+  // ...opciones
 }
 ```
+
+**Configuración actual:** El proyecto está configurado con un clúster privado de HiveMQ Cloud en AWS (región EU).
 
 ### ESP32
 
@@ -108,6 +98,8 @@ Edita las credenciales en el código Arduino:
 - Token del bot de Telegram
 
 ## 📡 Estructura de Datos MQTT
+
+**Topic:** `fcnet/battery/data`
 
 ```json
 {

@@ -1,0 +1,157 @@
+<!-- ============================================================================
+     TEMPLATE BATTERY MONITOR - ANGULAR 19
+     Migrado desde JSX de React manteniendo exactamente la misma estructura
+     ============================================================================ -->
+
+<div class="container">
+  <!-- ===== ENCABEZADO ===== -->
+  <header>
+    <h1>🔋 Monitor de Batería</h1>
+    <p class="subtitle">Sistema 24V 100Ah - Monitoreo en Tiempo Real</p>
+    
+    <!-- Indicador de conexión MQTT -->
+    <div class="connection-indicator">
+      <div class="status-dot" [class.connected]="isConnected"></div>
+      <span>{{ connectionStatus }}</span>
+    </div>
+  </header>
+
+  <div class="dashboard">
+    <!-- ===== SECCIÓN: VISUALIZACIÓN DE BATERÍA ===== -->
+    <div class="battery-section">
+      <div class="battery-container">
+        <!-- Cuerpo de la batería con líquido animado -->
+        <div class="battery-shell">
+          <div 
+            class="battery-level"
+            [class.medium]="batteryClass === 'medium'"
+            [class.low]="batteryClass === 'low'"
+            [style.height.%]="soc">
+            <!-- Efecto de olas/líquido -->
+            <div class="battery-liquid"></div>
+            <!-- Texto del porcentaje dentro de la batería -->
+            <span class="soc-text">{{ soc.toFixed(1) }}%</span>
+          </div>
+        </div>
+        <!-- Terminal positivo de la batería -->
+        <div class="battery-cap"></div>
+      </div>
+      
+      <!-- Información textual del estado de carga -->
+      <div class="battery-info">
+        <h2>Estado de Carga</h2>
+        <!-- Barra de progreso horizontal -->
+        <div class="progress-bar">
+          <div 
+            class="progress-fill"
+            [class.medium]="batteryClass === 'medium'"
+            [class.low]="batteryClass === 'low'"
+            [style.width.%]="soc">
+          </div>
+        </div>
+        <!-- Mensaje descriptivo del estado -->
+        <p class="status-text">{{ statusMessage }}</p>
+      </div>
+    </div>
+
+    <!-- ===== SECCIÓN: MÉTRICAS PRINCIPALES ===== -->
+    <div class="metrics-grid">
+      <!-- TARJETA 1: Voltaje -->
+      <div class="metric-card voltage-card">
+        <div class="metric-header">
+          <div class="metric-icon">⚡</div>
+          <span class="metric-label">Voltaje</span>
+        </div>
+        <div class="metric-value">{{ voltage.toFixed(2) }}V</div>
+        <div class="metric-range">20.8V - 26.5V</div>
+      </div>
+
+      <!-- TARJETA 2: Corriente -->
+      <div class="metric-card current-card">
+        <div class="metric-header">
+          <div class="metric-icon">🔌</div>
+          <span class="metric-label">Corriente</span>
+        </div>
+        <div class="metric-value">{{ (current < 0 ? -current : current) | number:'1.2-2' }}A</div>
+        <div class="metric-state" [style.color]="currentState.color">
+          {{ currentState.icon }} {{ currentState.text }}
+        </div>
+      </div>
+
+      <!-- TARJETA 3: Tiempo de Carga -->
+      <div class="metric-card time-card">
+        <div class="metric-header">
+          <div class="metric-icon">⏱️</div>
+          <span class="metric-label">Tiempo de Carga</span>
+        </div>
+        <div class="metric-value">{{ formatTime(timeFull) }}</div>
+        <div class="metric-sublabel">Hasta 100%</div>
+      </div>
+
+      <!-- TARJETA 4: Autonomía -->
+      <div class="metric-card autonomy-card">
+        <div class="metric-header">
+          <div class="metric-icon">⏳</div>
+          <span class="metric-label">Autonomía</span>
+        </div>
+        <div class="metric-value">{{ formatTime(timeEmpty) }}</div>
+        <div class="metric-sublabel">Tiempo restante</div>
+      </div>
+    </div>
+
+    <!-- ===== SECCIÓN: PANEL DE INFORMACIÓN ===== -->
+    <div class="info-panel">
+      <h3>📋 Especificaciones del Sistema</h3>
+      <div class="specs-grid">
+        <div class="spec">
+          <div class="spec-label">Capacidad</div>
+          <div class="spec-value">100Ah</div>
+        </div>
+        <div class="spec">
+          <div class="spec-label">Voltaje Nominal</div>
+          <div class="spec-value">24V</div>
+        </div>
+        <div class="spec">
+          <div class="spec-label">Voltaje Máximo</div>
+          <div class="spec-value">26.5V</div>
+        </div>
+        <div class="spec">
+          <div class="spec-label">Voltaje Mínimo</div>
+          <div class="spec-value">20.8V</div>
+        </div>
+        <div class="spec">
+          <div class="spec-label">Shunt</div>
+          <div class="spec-value">50A/75mV</div>
+        </div>
+        <div class="spec">
+          <div class="spec-label">Sensor</div>
+          <div class="spec-value">INA219</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ALERTA DE BATERÍA BAJA ===== -->
+    <div class="alert-box" *ngIf="showAlert">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-content">
+        <strong>ALERTA: Nivel de Batería Bajo</strong>
+        <p>Conecta el cargador inmediatamente</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PIE DE PÁGINA ===== -->
+  <footer>
+    <div class="footer-content">
+      <p>
+        <span>Última actualización: <strong>{{ lastUpdate }}</strong></span>
+      </p>
+      <p class="credits">
+        Powered by ESP32 + HiveMQ Cloud • Monitoreo 24/7
+      </p>
+      <p class="telegram-info">
+        📱 Bot de Telegram: <strong>&#64;mi_battery_monitor_bot</strong>
+      </p>
+    </div>
+  </footer>
+</div>
