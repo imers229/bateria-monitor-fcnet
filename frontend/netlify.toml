@@ -1,6 +1,7 @@
 [build]
+  base = "frontend"
   publish = "dist/battery-monitor-fcnet/browser"
-  command = "npm run build"
+  command = "npm install && npm run build"
 
 [[redirects]]
   from = "/*"
@@ -9,3 +10,4 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
